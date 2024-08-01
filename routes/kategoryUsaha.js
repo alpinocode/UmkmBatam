@@ -7,33 +7,35 @@ import {
   getKategoriById,
 } from "../controllers/kategoriUsaha.js";
 import {
-  adminVerify,
-  PenjualVerify,
+  adminAndPenjualVerify,
   VerifyToken,
 } from "../middleware/VerifyToken.js";
 
 const kategori = express.Router();
 
 kategori.get("/kategori", VerifyToken, getKategori);
-kategori.get("/kategori/:id", VerifyToken, PenjualVerify, getKategoriById);
+kategori.get(
+  "/kategori/:id",
+  VerifyToken,
+  adminAndPenjualVerify,
+  getKategoriById
+);
 kategori.post(
   "/kategori/create",
   VerifyToken,
-  PenjualVerify || adminVerify,
+  adminAndPenjualVerify,
   createKategory
 );
 kategori.put(
   "/kategori/:id",
   VerifyToken,
-  PenjualVerify,
-  adminVerify,
+  adminAndPenjualVerify,
   updateKategory
 );
 kategori.delete(
   "/kategori/:id",
   VerifyToken,
-  PenjualVerify,
-  adminVerify,
+  adminAndPenjualVerify,
   deleteKategori
 );
 

@@ -7,14 +7,13 @@ import {
 } from "../controllers/UserController.js";
 import { RefreshToken } from "../controllers/RefreshToken.js";
 import {
-  adminVerify,
-  PenjualVerify,
+  adminAndPenjualVerify,
   VerifyToken,
 } from "../middleware/VerifyToken.js";
 
 const user = express.Router();
 
-user.get("/datauser", VerifyToken, adminVerify || PenjualVerify, getUser);
+user.get("/datauser", VerifyToken, adminAndPenjualVerify, getUser);
 user.post("/register", Register);
 user.post("/login", Login);
 user.get("/refreshtoken", VerifyToken, RefreshToken);
