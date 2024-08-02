@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import helmet from "helmet";
+import expresSesion from "express-session";
 // env setup
 dotenv.config();
 
@@ -24,6 +25,7 @@ import produkUsaha from "./routes/ProdukRoute.js";
 import userRoute from "./routes/UserRoute.js";
 import roleRoute from "./routes/RoleRoute.js";
 import komentarRoute from "./routes/KomentarRoute.js";
+import { errorHandler, notFound } from "./middleware/errorHandler.js";
 
 // env
 const port = process.env.PORT;
@@ -38,6 +40,13 @@ app.use(
   })
 );
 
+app.use(
+  expresSesion({
+    secret: "s3Cur3",
+    name: "project-umkm-batam",
+  })
+);
+
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.json());
@@ -48,6 +57,8 @@ app.use(produkUsaha);
 app.use(userRoute);
 app.use(roleRoute);
 app.use(komentarRoute);
+app.use(errorHandler);
+app.use(notFound);
 
 app.listen(port, () => {
   console.log(`Server Berjalan pada ${port}`);
