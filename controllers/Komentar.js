@@ -38,11 +38,6 @@ export const getKomentarById = async (req, res) => {
 
 export const createKomentar = async (req, res) => {
   const { deksripsi_comment, user_id, produk_id } = req.body;
-  const produkByPk = await Produk.findByPk(produk_id);
-  if (!produkByPk)
-    return res.status(403).json({
-      message: "Produk_id tidak valid",
-    });
 
   try {
     await Komentar.create({

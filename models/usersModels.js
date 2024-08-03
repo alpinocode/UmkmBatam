@@ -38,6 +38,7 @@ const User = db.define(
       allowNull: false,
       validate: {
         notEmpty: true,
+        len: [6, 100],
       },
     },
     imgprofile: {
