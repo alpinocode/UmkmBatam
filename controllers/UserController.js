@@ -47,6 +47,11 @@ export const Register = async (req, res) => {
   } = req.body;
 
   try {
+    if (username.length < 3)
+      return res.status(403).json({
+        message: "Data anda tidak bisa kurang tiga karater",
+      });
+
     if (userRoleId === null || userRoleId === undefined)
       return res.status(403).json({
         message: "Masukan data role anda dulu",
