@@ -26,32 +26,11 @@ import userRoute from "./routes/UserRoute.js";
 import roleRoute from "./routes/RoleRoute.js";
 import komentarRoute from "./routes/KomentarRoute.js";
 import { notFound } from "./middleware/errorHandler.js";
-import multer from "multer";
 
 // env
 const port = process.env.PORT;
 
 // multer
-const fileStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "/images");
-  },
-  filename: (req, file, cb) => {
-    cb(null, new Date().getTime() + "_" + file.originalname);
-  },
-});
-
-const fileFilter = (req, file, cb) => {
-  if (
-    file.mimetype === "image/png" ||
-    file.mimetype === "image/jpg" ||
-    file.mimetype === "image/jpeg"
-  ) {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
-};
 
 // express implemation
 const app = express();
