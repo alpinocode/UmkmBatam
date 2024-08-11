@@ -25,10 +25,33 @@ import produkUsaha from "./routes/ProdukRoute.js";
 import userRoute from "./routes/UserRoute.js";
 import roleRoute from "./routes/RoleRoute.js";
 import komentarRoute from "./routes/KomentarRoute.js";
-import { errorHandler, notFound } from "./middleware/errorHandler.js";
+import { notFound } from "./middleware/errorHandler.js";
+import multer from "multer";
 
 // env
 const port = process.env.PORT;
+
+// multer
+const fileStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "/images");
+  },
+  filename: (req, file, cb) => {
+    cb(null, new Date().getTime() + "_" + file.originalname);
+  },
+});
+
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === "image/png" ||
+    file.mimetype === "image/jpg" ||
+    file.mimetype === "image/jpeg"
+  ) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
 
 // express implemation
 const app = express();
@@ -51,13 +74,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.json());
 app.use(helmet());
+app.use(
+  multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
+);
 app.use(usaha);
 app.use(kategoriUsaha);
 app.use(produkUsaha);
 app.use(userRoute);
 app.use(roleRoute);
 app.use(komentarRoute);
-app.use(errorHandler);
 app.use(notFound);
 
 app.listen(port, () => {

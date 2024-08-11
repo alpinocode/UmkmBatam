@@ -63,14 +63,10 @@ export const getProdukById = async (req, res) => {
 };
 
 export const createProduk = async (req, res) => {
-  const {
-    suka,
-    nama_produk,
-    img_produk,
-    link_mshoope,
-    link_mtokopedia,
-    usaha_id,
-  } = req.body;
+  const { suka, nama_produk, link_mshoope, link_mtokopedia, usaha_id } =
+    req.body;
+
+  const image = req.file.path;
 
   // const produkByPk = await Produk.findByPk(usaha_id);
   // if (!produkByPk)
@@ -79,10 +75,16 @@ export const createProduk = async (req, res) => {
   //   });
 
   try {
+    if (!req.file) {
+      const err = new Error("Image Harus di Upload");
+      err.errorStatus = 422;
+      throw err;
+    }
+
     const produk = await Produk.create({
       suka: suka,
       nama_produk: nama_produk,
-      img_produk: img_produk,
+      img_produk: image,
       link_mshoope: link_mshoope,
       link_mtokopedia: link_mtokopedia,
       usaha_id: usaha_id,

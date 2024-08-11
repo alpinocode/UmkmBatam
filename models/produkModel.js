@@ -28,6 +28,7 @@ const Produk = db.define(
     },
     img_produk: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
     link_mshoope: {
       type: DataTypes.STRING,
